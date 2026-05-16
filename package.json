@@ -1,0 +1,32 @@
+{
+  "name": "@sulfajs/sulfajs",
+  "private": false,
+  "version": "1.0.5",
+  "description": "✨ Wanna particles with physics? Piece of cake! Sulfa is a lightweight library for particle generation at coordinates with gravity, and wind!",
+  "homepage": "https://github.com/anafro-incubator/sulfa#readme",
+  "main": "./build/sulfa.js",
+  "unpkg": "./build/sulfa.js",
+  "jsdelivr": "./build/sulfa.js",
+  "module": "./build/sulfa.js",
+  "exports": {
+      ".": "./build/sulfa.js"
+  },
+  "bugs": {
+    "url": "https://github.com/anafro-incubator/sulfa/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anafro-incubator/sulfa.git"
+  },
+  "license": "MIT",
+  "author": "Anatoly Frolov (anafro)",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "esbuild ./src/index.ts --bundle --minify --target=chrome86 --outfile=./build/sulfa.js --allow-overwrite --tree-shaking=true",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "build"
+  ]
+}
