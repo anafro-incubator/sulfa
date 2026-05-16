@@ -1,5 +1,7 @@
 ![Demonstration](https://github.com/anafro/anafro/blob/main/GIFs/Sulfa-Snowflakes.gif)
 
+![Banner](https://raw.githubusercontent.com/anafro/anafro/refs/heads/main/Banners/Sulfa-Hero.png)
+
 # ❄ Sulfa
 
 > Wanna particles with physics? Piece of cake.
