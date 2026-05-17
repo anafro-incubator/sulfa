@@ -11,15 +11,6 @@ export type Range = {
     max: number;
 }
 
-export type ParticleGeneratorOptions = {
-    name: string;
-    variations: number;
-    sizeRange: Range;
-    lifetime?: number;
-    gravity?: number;
-    wind?: number;
-};
-
 export type SulfaOptions = {
     imageUriFormat?: string;
 }
@@ -71,15 +62,24 @@ class Sulfa {
 
     public generator({
         name,
-        variations,
-        sizeRange,
-        lifetime = 5000,
-        gravity = 0.2,
-        wind = 0.05,
+        variations = 1,
+        sizeRange = { min: 20, max: 30 },
+        lifetime = 7500,
+        gravity = 200,
+        wind = 0,
     }: ParticleGeneratorOptions): ParticleGenerator {
         return new ParticleGenerator(this, { name, variations, sizeRange, lifetime, gravity, wind });
     }
 }
+
+export type ParticleGeneratorOptions = {
+    name: string;
+    variations?: number;
+    sizeRange?: Range;
+    lifetime?: number;
+    gravity?: number;
+    wind?: number;
+};
 
 class ParticleGenerator {
     private readonly sulfa: Sulfa;
