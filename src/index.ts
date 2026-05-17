@@ -15,7 +15,6 @@ export type ParticleGeneratorOptions = {
     name: string;
     variations: number;
     sizeRange: Range;
-    fps?: number;
     lifetime?: number;
     gravity?: number;
     wind?: number;
@@ -74,12 +73,11 @@ class Sulfa {
         name,
         variations,
         sizeRange,
-        fps = 60,
         lifetime = 5000,
         gravity = 0.2,
         wind = 0.05,
     }: ParticleGeneratorOptions): ParticleGenerator {
-        return new ParticleGenerator(this, { name, variations, sizeRange, fps, lifetime, gravity, wind });
+        return new ParticleGenerator(this, { name, variations, sizeRange, lifetime, gravity, wind });
     }
 }
 
@@ -88,7 +86,6 @@ class ParticleGenerator {
     private readonly name: string;
     private readonly variations: number;
     private readonly sizeRange: Range;
-    private readonly fps: number;
     private readonly lifetime: number;
     private readonly gravity: number;
     private readonly wind: number;
@@ -97,7 +94,6 @@ class ParticleGenerator {
         name,
         variations,
         sizeRange,
-        fps,
         lifetime,
         gravity,
         wind,
@@ -106,7 +102,6 @@ class ParticleGenerator {
         this.name = name;
         this.variations = variations;
         this.sizeRange = sizeRange;
-        this.fps = fps;
         this.lifetime = lifetime;
         this.gravity = gravity;
         this.wind = wind;
@@ -137,15 +132,15 @@ class ParticleGenerator {
             lifetime: this.lifetime,
             gravity: this.gravity,
             wind: this.wind,
-            fps: this.fps,
         });
 
         particle.spawn();
     }
 
     public splash(at: Position | undefined = undefined, count: number = 5, force: number = 5): void {
+        at ??= positions.random();
         for (let i = 0; i < count; i++) {
-            this.spawn(at ?? positions.random(), force);
+            this.spawn(at, force);
         }
     }
 
@@ -161,7 +156,6 @@ export type ParticleOptions = {
     force?: number;
     gravity: number;
     wind: number;
-    fps: number;
 };
 
 class Particle {
@@ -173,7 +167,7 @@ class Particle {
     private velocity: Vector2D;
     private gravity: number;
     private wind: number;
-    private fps: number;
+    private updatedate: number | undefined;
 
     public constructor({
         el,
@@ -182,17 +176,15 @@ class Particle {
         position,
         gravity,
         wind,
-        fps,
     }: Required<ParticleOptions>) {
         this.interval = null;
         this.el = el;
         this.spawndate = null;
         this.lifetime = lifetime;
-        this.position = position ?? positions.random();
+        this.position = { ...(position ?? positions.random()) };
         this.velocity = vectors.random(force);
         this.gravity = gravity;
         this.wind = wind;
-        this.fps = fps;
     }
 
     private isExpired(): boolean {
@@ -204,33 +196,37 @@ class Particle {
     }
 
     private update(): void {
-        this.velocity.x += this.wind;
-        this.velocity.y += this.gravity;
+        const now = Date.now();
 
-        this.position.x += this.velocity.x;
-        this.position.y += this.velocity.y;
+        this.updatedate ??= now;
+        const delta = (now - this.updatedate) / 1000;
+
+        this.velocity.x += this.wind * delta;
+        this.velocity.y += this.gravity * delta;
+
+        this.position.x += this.velocity.x * delta;
+        this.position.y += this.velocity.y * delta;
 
         this.el.style.left = `${this.position.x}px`;
         this.el.style.top = `${this.position.y}px`;
 
+        this.updatedate = now;
+
         if (this.isExpired()) {
             this.despawn();
+        } else {
+            window.requestAnimationFrame(() => this.update());
         }
     }
 
     public spawn(): void {
         this.spawndate = Date.now();
-        this.interval = window.setInterval(this.update.bind(this), 1000 / this.fps);
-        this.update();
+        this.updatedate = this.spawndate;
+        requestAnimationFrame(() => this.update());
         document.body.appendChild(this.el);
     }
 
     private despawn(): void {
-        if (this.interval === null) {
-            throw new Error(`The particle is not spawned.`);
-        }
-
-        window.clearInterval(this.interval);
         this.el.remove();
     }
 }
