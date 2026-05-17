@@ -159,7 +159,6 @@ export type ParticleOptions = {
 };
 
 class Particle {
-    private interval: ReturnType<typeof setInterval> | null;
     private spawndate: number | null;
     private lifetime: number;
     private el: HTMLImageElement;
@@ -177,7 +176,6 @@ class Particle {
         gravity,
         wind,
     }: Required<ParticleOptions>) {
-        this.interval = null;
         this.el = el;
         this.spawndate = null;
         this.lifetime = lifetime;
