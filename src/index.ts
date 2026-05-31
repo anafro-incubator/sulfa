@@ -230,3 +230,4 @@ class Particle {
 }
 
 window.createSulfa = createSulfa;
+export default createSulfa;
