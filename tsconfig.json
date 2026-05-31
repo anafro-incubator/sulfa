@@ -4,5 +4,6 @@
     "lib": ["es2022", "dom"],
     "removeComments": true
   },
+  "declaration": true,
   "include": ["src/**/*"]
 }

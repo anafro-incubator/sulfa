@@ -23,7 +23,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "esbuild ./src/index.ts --bundle --minify --target=chrome86 --outfile=./build/sulfa.js --allow-overwrite --tree-shaking=true",
+    "build": "tsc --declaration --emitDeclarationOnly --outDir ./build && esbuild ./src/index.ts --bundle --minify --target=chrome86 --outfile=./build/sulfa.js --allow-overwrite --tree-shaking=true",
     "prepublishOnly": "npm run build"
   },
   "files": [
