@@ -1,18 +1,17 @@
 {
     "name": "@sulfajs/sulfajs",
     "private": false,
-    "version": "1.1.6",
+    "version": "1.1.7",
     "types": "./build/index.d.ts",
     "description": "✨ Wanna particles with physics? Piece of cake! Sulfa is a lightweight library for particle generation at coordinates with gravity, and wind!",
     "homepage": "https://github.com/anafro-incubator/sulfa#readme",
-    "main": "./build/sulfa.js",
-    "unpkg": "./build/sulfa.js",
-    "jsdelivr": "./build/sulfa.js",
-    "module": "./build/sulfa.js",
+    "main": "./build/sulfa.esm.js",
+    "module": "./build/sulfa.esm.js",
+    "unpkg": "./build/sulfa.iife.js",
     "exports": {
         ".": {
-            "import": "./build/sulfa.js",
-            "types": "./build/index.d.ts"
+            "types": "./build/index.d.ts",
+            "import": "./build/sulfa.esm.js"
         }
     },
     "bugs": {
@@ -27,7 +26,7 @@
     "type": "module",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tsc --declaration --emitDeclarationOnly --outDir ./build && esbuild ./src/index.ts --bundle --minify --target=chrome86 --outfile=./build/sulfa.js --allow-overwrite --tree-shaking=true",
+        "build": "tsc --declaration --emitDeclarationOnly --outDir ./build && esbuild ./src/index.ts --bundle --minify --target=chrome86 --outfile=./build/sulfa.esm.js --format=esm && esbuild ./src/index.ts --bundle --minify --target=chrome86 --outfile=./build/sulfa.iife.js --format=iife --global-name=createSulfa",
         "prepublishOnly": "npm run build"
     },
     "files": [
