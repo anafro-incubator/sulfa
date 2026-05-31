@@ -1,8 +1,8 @@
 {
   "name": "@sulfajs/sulfajs",
   "private": false,
-  "version": "1.1.4",
-  "types": "./build/sulfa.d.ts",
+  "version": "1.1.5",
+  "types": "./build/index.d.ts",
   "description": "✨ Wanna particles with physics? Piece of cake! Sulfa is a lightweight library for particle generation at coordinates with gravity, and wind!",
   "homepage": "https://github.com/anafro-incubator/sulfa#readme",
   "main": "./build/sulfa.js",
